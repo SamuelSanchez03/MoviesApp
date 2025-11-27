@@ -1,10 +1,15 @@
-{
+import "dotenv/config";
+
+export default {
   "expo": {
     "name": "movies-app",
     "slug": "movies-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "extra": {
+      "apiUrl": process.env.API_URL
+    },
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
