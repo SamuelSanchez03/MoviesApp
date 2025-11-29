@@ -3,7 +3,6 @@ import { TouchableOpacity, Text, StyleSheet, ImageBackground, View } from "react
 
 //Categoría con imagen y texto
 const CategoryCard = ({title, image, onPress}) => {
-
     return(
         <TouchableOpacity
             style={styles.container}
@@ -11,7 +10,7 @@ const CategoryCard = ({title, image, onPress}) => {
             onPress={onPress}
         >
       <ImageBackground
-        source={image}
+        source={{uri: image}}
         style={styles.image}
         imageStyle={styles.imageInner}
       >{/*Una capa para oscurecer la imagen y que el texto resalte */}

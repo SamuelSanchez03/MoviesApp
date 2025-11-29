@@ -13,14 +13,12 @@ root/
 │── .env                 # Contains API_URL (not committed)
 │
 └── src/
-    ├── api/
-    │   └── api.js       # Axios instance
-    │
     ├── controllers/
     │   ├── CategoryController.js
     │   └── MovieController.js
     │
     ├── services/
+    │   ├── api.js       # Axios instance         
     │   ├── CategoryService.js
     │   └── MovieService.js
     │
