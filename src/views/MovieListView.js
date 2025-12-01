@@ -1,12 +1,14 @@
 import CategoryController from "../controllers/CategoryController"
 import { useState, useEffect } from "react"
 import { View, Text, Image, FlatList,StyleSheet ,TouchableOpacity} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"
 import MovieCard from "../components/MovieCard"
+import LoadingView from "./LoadingView"
 
 const MovieListView = ({ navigation, route }) => {
     const [movies, setMovies] = useState([])
     const [category, setCategory] = useState({})
+    const [loading, setLoading] = useState(true)
 
     const { category_id } = route.params
 
@@ -19,12 +21,17 @@ const MovieListView = ({ navigation, route }) => {
     }, [category_id])
 
     async function loadMovies(id) {
-        const result = await CategoryController.getMoviesByCategory(id)
+        try {
+            setLoading(true); 
+            const result = await CategoryController.getMoviesByCategory(id);
 
-        if (result.error) {
-            // manejar error
-        } else {
-            setMovies(result)
+            if (result.error) {
+                console.log("Error loading movies")
+            } else {
+                setMovies(result)
+            }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -32,7 +39,7 @@ const MovieListView = ({ navigation, route }) => {
         const result = await CategoryController.getCategoryById(id)
 
         if (result.error) {
-            // manejar error    
+            console.log("Error loading category");  
         } else {
             setCategory(result)
         }
@@ -52,8 +59,12 @@ const MovieListView = ({ navigation, route }) => {
                 image={item.image}
                 onPress={() => goToDetails(item.id)}
             />
-        );
-    };
+        )
+    }
+
+    if (loading) {
+        return <LoadingView message="Loading Movies" />
+    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -82,7 +93,7 @@ const MovieListView = ({ navigation, route }) => {
                 />
             </View>
         </SafeAreaView>
-    );
+    )
 }
 
 export default MovieListView
@@ -103,4 +114,4 @@ const styles = StyleSheet.create({
   row: {
     justifyContent: "space-between",
   },
-});
+})

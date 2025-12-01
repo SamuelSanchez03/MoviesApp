@@ -1,25 +1,36 @@
 import CategoryController from "../controllers/CategoryController"
 import { useState, useEffect } from "react"
 import { View, Text, FlatList,StyleSheet} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
-import CategoryCard from "../components/CategoryCard";
+import { SafeAreaView } from "react-native-safe-area-context"
+import CategoryCard from "../components/CategoryCard"
+import LoadingView from "./LoadingView"
 
 const CategoryListView = ({ navigation }) => {
     
     const [categories, setCategories] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         loadCategories()
     }, [])
 
     async function loadCategories() {
-        const result = await CategoryController.getCategories()
 
-        if (result.error) {
+      try{
+          setLoading(true)
+          const result = await CategoryController.getCategories()
+          if (result.error) {
             // manejar error
+            console.log("Error loading categories")
         } else {
             setCategories(result)
         }
+      }finally{
+          setLoading(false)
+      }
+        
+
+        
     }
 
     const goToMovies = (id) => {
@@ -35,8 +46,13 @@ const CategoryListView = ({ navigation }) => {
             image={item.icon}
             onPress={() => goToMovies(item.id)}
             />
-        );
-    };
+        )
+    }
+
+    //Mientras está cargando mostrar el LoadingView
+    if(loading){
+      return <LoadingView message="Loading Categories" />
+    }
 
     return (
     <SafeAreaView style={styles.safeArea}>
@@ -57,7 +73,7 @@ const CategoryListView = ({ navigation }) => {
         />
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 export default CategoryListView;
@@ -78,4 +94,4 @@ const styles = StyleSheet.create({
   row: {
     justifyContent: "space-between",
   },
-});
+})
