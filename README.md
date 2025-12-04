@@ -24,11 +24,14 @@ root/
     │
     ├── views/
     │   ├── CategoryListView.js
+    │   ├── LoadingView.js
     │   ├── MovieListView.js
     │   └── MovieDetailsView.js
     │
     ├── components/
-    │   └── (pending)
+    │   ├── CategoryListView.js
+    │   ├── MovieCard.js
+    │   └── MovieDetailsCard.js
     │
     ├── navigation/
     │   └── AppNavigator.js
